@@ -54,14 +54,23 @@
         .phone-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: 600; }
         .phone-item a { color: var(--danger); text-decoration: none; }
 
-        @media (max-width: 768px) {
-            .main-container { flex-direction: column-reverse; }
-            .sidebar { width: 100%; height: 45%; }
-            #map {
-                height: 65vh; /* Θα καταλάβει το 65% του ύψους της οθόνης του κινητού */
-                width: 100%;
-        }
-        }
+       @media (max-width: 768px) {
+    .main-container { 
+        flex-direction: column; /* ή column-reverse, ανάλογα τι θες πάνω */
+    }
+    
+    /* Ορίζουμε σταθερό και ισορροπημένο ύψος για τα δύο τμήματα */
+    #map {
+        height: 50vh !important; /* 50% της οθόνης για τον χάρτη */
+        width: 100% !important;
+    }
+
+    .sidebar { 
+        width: 100% !important; 
+        height: 50vh !important; /* 50% της οθόνης για τη λίστα με scroll */
+        overflow-y: auto;
+    }
+}
     </style>
 </head>
 <body>
