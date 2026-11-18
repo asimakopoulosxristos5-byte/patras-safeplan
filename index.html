@@ -53,27 +53,80 @@
         .info-card h3 { color: var(--primary); margin-bottom: 8px; }
         .phone-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: 600; }
         .phone-item a { color: var(--danger); text-decoration: none; }
+/* Κουμπί λίστας: κρυφό στον υπολογιστή */
+.mobile-list-btn {
+    display: none;
+}
 
-     @media (max-width: 768px) {
+/* Ρυθμίσεις μόνο για κινητά */
+@media (max-width: 768px) {
     html, body {
-        height: 100vh;
+        height: 100dvh;
         overflow: hidden;
     }
-    .main-container { 
-        display: flex !important;
-        flex-direction: column !important; 
-        height: calc(100vh - 60px) !important;
+
+    /* Μαζεύουμε το header για να μην τρώει ύψος */
+    header {
+        padding: 8px 12px;
     }
-    #map {
-        flex: 1 1 50% !important;
-        width: 100% !important;
-        display: block !important;
-        visibility: visible !important;
+    .logo-area h1 {
+        font-size: 1rem;
     }
-    .sidebar { 
-        flex: 1 1 50% !important;
-        width: 100% !important; 
-        overflow-y: auto !important;
+    .logo-area p {
+        display: none; /* Κρύβουμε τον υπότιτλο στο κινητό για να χωράει σε 1 γραμμή */
+    }
+    .nav-btn {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+    }
+
+    /* Το main-container παίρνει ακριβώς ό,τι ύψος περισσεύει */
+    .main-container {
+        height: calc(100dvh - 48px);
+    }
+
+    /* Κουμπί εμφάνισης λίστας πάνω δεξιά στον χάρτη */
+    .mobile-list-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 1001;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        cursor: pointer;
+    }
+
+    /* Η δεξιά στήλη γίνεται κρυφό συρτάρι */
+    .sidebar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 85%;
+        max-width: 340px;
+        height: 100%;
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Όταν ανοίγει με το κουμπί */
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* Ανεβάζουμε λίγο τα κάτω κουμπιά (εντοπισμός θέσης) για να μην τα κόβει η μπάρα του browser */
+    .floating-controls {
+        bottom: 25px;
+        left: 12px;
     }
 }
     </style>
@@ -92,6 +145,8 @@
     </header>
 
     <div class="main-container">
+    <button id="toggleSidebarBtn" class="mobile-list-btn">📋 Λίστα</button>
+
         <!-- MAP VIEW -->
         <div id="map-view" class="tab-content active" style="display:flex; padding:0; flex:1; position:relative;">
             <div id="map"></div>
@@ -500,6 +555,18 @@
         renderShelters(shelters);
         const allBounds = L.latLngBounds(shelters.map(s => [s.lat, s.lng]));
         if (allBounds.isValid()) map.fitBounds(allBounds.pad(0.05));
-    </script>
+        const toggleBtn = document.getElementById('toggleSidebarBtn');
+        const sidebar = document.querySelector('.sidebar');
+
+        if (toggleBtn && sidebar) {
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                toggleBtn.textContent = sidebar.classList.contains('open') ? '✕ Κλείσιμο' : '📋 Λίστα';
+            });
+        }
+
+
+</script>
+
 </body>
 </html>
