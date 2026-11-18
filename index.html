@@ -54,21 +54,19 @@
         .phone-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: 600; }
         .phone-item a { color: var(--danger); text-decoration: none; }
 
-       @media (max-width: 768px) {
+      @media (max-width: 768px) {
     .main-container { 
-        flex-direction: column; /* ή column-reverse, ανάλογα τι θες πάνω */
+        flex-direction: column !important; 
     }
-    
-    /* Ορίζουμε σταθερό και ισορροπημένο ύψος για τα δύο τμήματα */
     #map {
-        height: 50vh !important; /* 50% της οθόνης για τον χάρτη */
+        height: 45vh !important; 
         width: 100% !important;
+        display: block !important;
     }
-
     .sidebar { 
         width: 100% !important; 
-        height: 50vh !important; /* 50% της οθόνης για τη λίστα με scroll */
-        overflow-y: auto;
+        height: 45vh !important; 
+        overflow-y: auto !important;
     }
 }
     </style>
